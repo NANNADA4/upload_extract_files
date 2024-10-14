@@ -31,8 +31,8 @@ def process_folder(excel_path, input_path, output_path):
             for index, row in matching_row.iterrows():
                 actual_file_path = os.path.join(root, file)
 
-                file_path_row = f"/inspection/reqdoc/2023/{
-                    row['BOOK_ID']}/{row['FILE_NAME']}"
+                file_path_row = f"/inspection/reqdoc/2023/{row['BOOK_ID']}/" + \
+                    f"{row['FILE_NAME']}"
                 real_file_path = os.path.join(
                     "inspection", "reqdoc", "2023", str(row['BOOK_ID']), str(row['FILE_NAME']))
                 target_file_path = os.path.join(output_path, real_file_path)
