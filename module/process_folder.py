@@ -49,7 +49,7 @@ def process_folder(excel_path, input_path, output_path):
                 df.at[index, 'FILE_PATH'] = file_path_row
                 df.at[index, 'FILE_NAME'] = row['FILE_NAME']
 
-    print("엑셀 파일 수정중입니다")
+    print("\n~~~엑셀 파일 수정중입니다~~~")
 
     try:
         df.to_excel(excel_path, index=False, engine='openpyxl')

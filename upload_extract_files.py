@@ -12,7 +12,7 @@ def main():
     """main 함수. PDF의 4단계에서 별도제출자료 리스트를 추출합니다"""
     print("-"*24)
     print("\n>>>>>>별도제출자료 업로드 파일 생성기 (폴더 생성 및 파일 변경)<<<<<<\n")
-    print("***'실제 파일명', 'FILE_NAME', 'FILE_PATH' 열이 존재하는지 확인하세요***")
+    print("***'실제 파일명', 'FILE_NAME', 'FILE_PATH' 열이 존재하는지 확인하세요***\n")
     print("-"*24)
 
     input_path = input(
@@ -31,7 +31,7 @@ def main():
 
     process_folder(excel_path, input_path, output_path)
 
-    print("\n~~~파일명 변경 및 별도제출자료 업로드 파일 수정이 완료되었습니다.~~~")
+    print("\n~~~파일명 변경 및 별도제출자료 업로드 파일 수정이 완료되었습니다.~~~\n\n")
 
     return main()
 
