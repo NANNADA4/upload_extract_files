@@ -19,6 +19,8 @@ def process_folder(excel_path, input_path, output_path):
         print("엑셀 읽기 오류! : 엑셀 파일에 필요한 열이 없습니다.")
         return
 
+    df['FILE_PATH'] = df['FILE_PATH'].astype(str)
+
     for root, _, files in os.walk(input_path):
         for file in natsorted(files):
             matching_row = df[df['실제 파일명'] == file]
