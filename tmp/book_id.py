@@ -40,6 +40,9 @@ def main():
     excel_file = input("엑셀 파일 경로를 입력하세요(확장자 포함) : ")
     dest_folder = input("목적지 폴더 경로를 입력하세요 : ")
     create_folders_and_copy_files(src_folder, excel_file, dest_folder)
+    print("\n모든 작업이 완료되었습니다\n")
+    return main()
 
-    if __name__ == "__main__":
-        main()
+
+if __name__ == "__main__":
+    main()
