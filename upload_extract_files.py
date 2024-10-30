@@ -2,36 +2,41 @@
 main 함수
 """
 
-import os
 
-
+from module.describe_program import describe_program
+from module.process_log import remove_log, print_log
 from module.process_folder import process_folder
 
 
 def main():
     """main 함수. PDF의 4단계에서 별도제출자료 리스트를 추출합니다"""
-    print("-"*24)
+    print("="*60)
     print("\n>>>>>>별도제출자료 업로드 파일 생성기 (폴더 생성 및 파일 변경)<<<<<<\n")
     print("***'실제 파일명', 'FILE_NAME', 'FILE_PATH' 열이 존재하는지 확인하세요***\n")
-    print("-"*24)
+    print("="*60)
 
-    input_path = input(
-        "입력 폴더 경로를 입력하세요\n*모든 파일이 존재하는 최상위 폴더 경로 입력*\n(종료는 0을 입력) : ")
-    if input_path == '0':
-        return 0
+    print("[1] BOOK_ID, SeqNO가 포함된 엑셀 파일 생성")
+    print("[2] 생성된 엑셀 파일에 질의합치기")
+    print("[3] BOOK_ID를 토대로 파일명 변경 및 폴더 생성")
+    print("[5] 도움말")
+    print("[8] 로그파일 출력")
+    print("[9] 로그파일 삭제")
+    print("[0] 프로그램 종료")
+    input_num = input("=> ")
 
-    output_path = input("폴더 생성 및 이름 변경된 파일이 위치할 폴더 경로를 입력하세요 : ")
-
-    if not os.path.isdir(input_path):
-        print("입력 폴더의 경로를 다시 한번 확인하세요")
-        return main()
-
-    excel_path = input("엑셀 경로를 입력하세요 : ")
-    input_path = os.path.join('\\\\?\\', input_path)
-
-    process_folder(excel_path, input_path, output_path)
-
-    print("\n~~~파일명 변경 및 별도제출자료 업로드 파일 수정이 완료되었습니다.~~~\n\n")
+    match input_num:
+        case '1' | '2' | '3':
+            process_folder(input_num)
+        case '5':
+            describe_program()
+        case '8':
+            print_log()
+        case '9':
+            remove_log()
+        case '0':
+            return 0
+        case _:
+            print("\n!!!!!올바른 숫자를 입력해주세요!!!!!\n")
 
     return main()
 
