@@ -10,8 +10,8 @@ from openpyxl import Workbook, load_workbook
 from openpyxl.styles import PatternFill
 
 
-def load_excel(excel_file_path) -> Workbook:
-    """엑셀 파일을 불러옵니다. 파일이 존재하지 않은 경우 header를 추가하고 새 파일을 불러옵니다"""
+def load_excel(excel_file_path=str) -> Workbook:
+    """엑셀 파일을 불러옵니다. 파일이 존재하지 않은 경우 HEADER를 추가하고 새 파일을 불러옵니다"""
     if not os.path.exists(excel_file_path):
         wb = Workbook()
         ws = wb.active
