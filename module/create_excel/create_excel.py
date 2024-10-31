@@ -34,8 +34,8 @@ def create_excel(input_path, excel_path):
 
             for item in extract_bookmark(os.path.join(root, file)):
                 if len(item) > 1 and item['level'] == 3:
-                    ws.cell(row=last_row + tmp, column=1, value=org)
-                    ws.cell(row=last_row + tmp, column=2, value=cmt)
+                    ws.cell(row=last_row + tmp, column=1, value=cmt)
+                    ws.cell(row=last_row + tmp, column=2, value=org)
                     ws.cell(row=last_row + tmp, column=3,
                             value=item['parent']['title'])
                     ws.cell(row=last_row + tmp, column=4, value=book_id)
