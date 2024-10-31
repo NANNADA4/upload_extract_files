@@ -3,9 +3,10 @@ main 함수
 """
 
 
-from module.describe_program import describe_program
-from module.process_log import remove_log, print_log
+from module.man.manual_program import describe_program
+from module.process_log.print_log import print_log
 from module.process_folder import process_folder
+from module.process_log.remove_log import remove_log
 
 
 def main():
