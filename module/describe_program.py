@@ -6,7 +6,7 @@ from time import sleep
 
 def describe_program():
     """프로그램 설명"""
-    print("\n\n-------별도제출자료 업로드 프로그램-------\n\n")
+    print("\n\n-------별도제출자료 업로드 프로그램 MANUAL-------\n\n")
     print("1. BOOK_ID, SeqNO가 포함된 엑셀 파일 생성")
     print("PDF 파일로부터 BOOK_ID, SEQ_NO를 추출할 때 사용할 수 있습니다.")
     print("- BOOK_ID : 입력받은 숫자로부터 파일이름 오름차순으로 1씩 매겨집니다.")

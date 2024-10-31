@@ -17,13 +17,17 @@ def process_folder(input_num) -> bool:
     input_path = os.path.join('\\\\?\\', input_path)
 
     if not os.path.isdir(input_path):
-        print("\n!!!!!입력 폴더의 경로를 다시 한 번 확인하세요!!!!!\n")
+        print("\n====입력 폴더의 경로를 다시 한 번 확인하세요====\n")
         return False
 
     match input_num:
         case '1':
-            create_excel_path = input("엑셀 파일을 저장할 경로를 입력하세요 : ")
-            process_create(input_path, create_excel_path)
+            while True:
+                create_excel_path = input("엑셀 파일을 저장할 경로를 입력하세요 : ")
+                if not create_excel_path.lower().endswith('.xlsx'):
+                    print("====엑셀 파일 확장자를 입력했는지 확인해주세요====")
+                process_create(input_path, create_excel_path)
+                break
         case '2':
             base_excel_path = input("1번에서 실행한 결과의 엑셀파일 경로를 입력하세요 : ")
             attach_excel_path = input("별도제출자료를 정리한 엑셀파일 경로를 입력하세요 : ")

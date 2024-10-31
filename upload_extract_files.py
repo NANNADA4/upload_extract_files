@@ -36,7 +36,7 @@ def main():
         case '0':
             return 0
         case _:
-            print("\n!!!!!올바른 숫자를 입력해주세요!!!!!\n")
+            print("\n====올바른 숫자를 입력해주세요====\n")
 
     return main()
 

@@ -16,7 +16,13 @@ def create_excel(input_path, excel_path):
     wb = load_excel(excel_path)
     ws = wb.active
 
-    book_id = int(input("BOOK_ID 시작번호를 입력해주세요 (오름차순으로 매겨집니다) : "))
+    while True:
+        book_id = input("BOOK_ID 시작번호를 입력해주세요 (오름차순으로 매겨집니다) : ")
+        try:
+            book_id = int(book_id)
+            break
+        except ValueError:
+            print("\n====숫자만 입력해주세요====\n")
 
     for root, _, files in os.walk(input_path):
         for file in natsorted(files):
