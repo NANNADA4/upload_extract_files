@@ -7,7 +7,7 @@ from natsort import natsorted
 
 
 from module.create_excel.find_name import extract_cmt, extract_org
-from module.create_excel.load_excel import load_excel
+from module.excel.load_excel import load_excel
 from module.bookmark.extract_bookmark import extract_bookmark
 
 
