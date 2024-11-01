@@ -17,15 +17,13 @@ def compare_excel(excel_1=Workbook, excel_2=Workbook) -> Workbook:
     for ws1_row_num in range(2, ws1.max_row + 1):
         attach_excel1_info_list = []
         attach_list = []  # 질의별 별첨파일 리스트
-        # * excel_1 : 위원회, 피감기관, 위원명, 질의
-        cmp1_value = [ws1.cell(row=ws1_row_num, column=col).value for col in [
-            1, 2, 3, 6]]
-        for ws2_row_num in range(2, ws2.max_row + 1):
-            # * excel_2 : 위원회, 피감기관, 위원명, 질의
-            cmp2_value = [ws2.cell(row=ws2_row_num, column=col).value for col in [
-                1, 2, 4, 5]]
 
-            if cmp1_value == cmp2_value:  # 질의들 리스트에 저장
+        for ws2_row_num in range(2, ws2.max_row + 1):
+            # * excel_1 : 위원회, 피감기관, 위원명, 질의
+            # * excel_2 : 위원회, 피감기관, 위원명, 질의
+            if ([ws1.cell(row=ws1_row_num, column=col).value for col in [1, 2, 3, 6]] ==
+                    [ws2.cell(row=ws2_row_num, column=col).value for col in [1, 2, 4, 5]]):
+                # 질의들 리스트에 저장
                 attach_list.append(ws2.cell(row=ws2_row_num, column=6).value)
 
             if len(attach_list) == 0:
