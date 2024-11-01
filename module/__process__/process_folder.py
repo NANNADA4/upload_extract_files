@@ -11,7 +11,7 @@ from natsort import natsorted
 
 
 from module.create_excel.create_excel import create_excel
-from module.merge_excel.compare_excel import compare_excel
+from module.merge_excel.compare_excel import add_attach_list, compare_excel
 from module.utils.load_excel import load_excel
 from module.__process__.process_log import create_log
 
@@ -38,8 +38,18 @@ def process_create(input_path, excel_path):
 def process_merge(base_excel_path, attach_excel_path):
     """#2. 1번에서 제작한 엑셀파일과 별도제출자료를 정리한 엑셀파일을 병합합니다"""
     try:
+        while True:
+            file_id = input("FILE_NAME에 들어갈 시작번호를 입력하세요 (seqNO순)\n=> ")
+            try:
+                int(file_id)
+                break
+            except ValueError:
+                print("\n====숫자만 입력해주세요====\n")
+
         compare_excel(load_excel(base_excel_path), load_excel(
             attach_excel_path)).save(base_excel_path)
+        add_attach_list(load_excel(base_excel_path),
+                        file_id).save(base_excel_path)
         print("\n=> 엑셀 파일이 정상적으로 병합되었습니다\n")
     except Exception as e:  # pylint: disable=W0718
         take_exception(e)
