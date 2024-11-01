@@ -8,7 +8,7 @@ from natsort import natsorted
 
 from module.utils.find_name import extract_cmt, extract_org
 from module.utils.load_excel import load_excel
-from module.bookmark.extract_bookmark import extract_bookmark
+from module.utils.extract_bookmark import extract_bookmark
 
 
 def create_excel(input_path, excel_path):

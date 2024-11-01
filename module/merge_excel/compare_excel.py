@@ -16,26 +16,27 @@ def compare_excel(excel_1=Workbook, excel_2=Workbook) -> Workbook:
 
     for ws1_row_num in range(2, ws1.max_row + 1):
         attach_excel1_info_list = []
-        attach_list = []  # 질의별 별첨파일 리스트
+        pdf_answer_list = []  # 질의별 별첨파일 리스트
 
         for ws2_row_num in range(2, ws2.max_row + 1):
             # * excel_1, excel_2 : 위원회, 피감기관, 위원명, 질의
             if ([ws1.cell(row=ws1_row_num, column=col).value for col in [1, 2, 3, 6]] ==
                     [ws2.cell(row=ws2_row_num, column=col).value for col in [1, 2, 4, 5]]):
-                attach_list.append(ws2.cell(row=ws2_row_num, column=6).value)
+                pdf_answer_list.append(
+                    ws2.cell(row=ws2_row_num, column=6).value)
 
-            if len(attach_list) == 0:
+            if len(pdf_answer_list) == 0:
                 continue
 
-        # * 위원회, 피감기관, 위원명, BOOKID, SEQNO, 질의, 파일명, 별첨리스트
-        if len(attach_list) > 0:
+        # * 위원회, 피감기관, 위원명, BOOKID, SEQNO, 질의, 파일명, PDF상 답변
+        if len(pdf_answer_list) > 0:
             attach_excel1_info_list.append([ws1.cell(row=ws1_row_num, column=1).value,
                                             ws1.cell(row=ws1_row_num, column=2).value, ws1.cell(
                                             row=ws1_row_num, column=3).value,
                                             ws1.cell(row=ws1_row_num, column=4).value, ws1.cell(
                                             row=ws1_row_num, column=5).value,
                                             ws1.cell(row=ws1_row_num, column=6).value, ws1.cell(
-                                                row=ws1_row_num, column=9).value, attach_list])
+                                                row=ws1_row_num, column=9).value, pdf_answer_list])
 
         # 행 번호, 리스트 dic. 엑셀 삽입시 역순으로. 순서대로 삽입시 행번호 꼬임
             total_dic.update(
