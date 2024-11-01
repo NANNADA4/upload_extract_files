@@ -19,11 +19,9 @@ def compare_excel(excel_1=Workbook, excel_2=Workbook) -> Workbook:
         attach_list = []  # 질의별 별첨파일 리스트
 
         for ws2_row_num in range(2, ws2.max_row + 1):
-            # * excel_1 : 위원회, 피감기관, 위원명, 질의
-            # * excel_2 : 위원회, 피감기관, 위원명, 질의
+            # * excel_1, excel_2 : 위원회, 피감기관, 위원명, 질의
             if ([ws1.cell(row=ws1_row_num, column=col).value for col in [1, 2, 3, 6]] ==
                     [ws2.cell(row=ws2_row_num, column=col).value for col in [1, 2, 4, 5]]):
-                # 질의들 리스트에 저장
                 attach_list.append(ws2.cell(row=ws2_row_num, column=6).value)
 
             if len(attach_list) == 0:
@@ -63,7 +61,6 @@ def compare_excel(excel_1=Workbook, excel_2=Workbook) -> Workbook:
             ws1.cell(row=key + cnt, column=6, value=value[0][5])
             ws1.cell(row=key + cnt, column=9, value=value[0][6])
             ws1.cell(row=key + cnt, column=7, value=value[0][7][cnt])
-        ws1.delete_rows(key - 1)
     remove_rows(ws1)
 
     return excel_1
