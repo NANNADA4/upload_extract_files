@@ -22,6 +22,7 @@ def take_exception(e):
     print("-"*10)
     traceback.print_exc()
     print("-"*10)
+    print("")
 
 
 def process_create(input_path, excel_path):
@@ -48,8 +49,9 @@ def process_merge(base_excel_path, attach_excel_path):
 
         compare_excel(load_excel(base_excel_path), load_excel(
             attach_excel_path)).save(base_excel_path)
-        add_attach_list(load_excel(base_excel_path),
-                        file_id).save(base_excel_path)
+        print("\n====PDF상 답변 병합 완료. FILE_NAME병합 시작.====\n")
+        add_attach_list(load_excel(base_excel_path), load_excel(
+            attach_excel_path), file_id).save(base_excel_path)
         print("\n=> 엑셀 파일이 정상적으로 병합되었습니다\n")
     except Exception as e:  # pylint: disable=W0718
         take_exception(e)
