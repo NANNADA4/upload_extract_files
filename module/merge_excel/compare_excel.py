@@ -64,5 +64,18 @@ def compare_excel(excel_1=Workbook, excel_2=Workbook) -> Workbook:
             ws1.cell(row=key + cnt, column=9, value=value[0][6])
             ws1.cell(row=key + cnt, column=7, value=value[0][7][cnt])
         ws1.delete_rows(key - 1)
+    remove_rows(ws1)
 
     return excel_1
+
+
+def remove_rows(ws):
+    """별첨파일 데이터가 없는 엑셀의 행을 삭제합니다"""
+    delete_rows = []
+
+    for row in range(1, ws.max_row + 1):
+        if ws.cell(row=row, column=7).value is None:
+            delete_rows.append(row)
+
+    for row in reversed(delete_rows):
+        ws.delete_rows(row)
