@@ -12,7 +12,7 @@ from natsort import natsorted
 from module.create_excel.create_excel import create_excel
 from module.merge_excel.compare_excel import compare_excel
 from module.utils.load_excel import load_excel
-from module.process_log.create_log import create_log
+from module.process.process_log import create_log
 
 
 def process_create(input_path, excel_path):
