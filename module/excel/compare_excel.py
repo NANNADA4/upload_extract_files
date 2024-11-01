@@ -9,8 +9,8 @@ from openpyxl import Workbook
 
 def compare_excel(excel_1=Workbook, excel_2=Workbook) -> Workbook:  # pylint: disable=R0914
     """두 엑셀 파일을 비교하여 값이 같을 경우 질의를 추가합니다"""
-    cmp1_compare = [1, 2, 3, 6]  # 위원회, 피감기관, 위원명, 질의
-    cmp2_compare = [1, 2, 4, 5]  # 위원회, 피감기관, 위원명, 질의
+    cmp1_compare = [1, 2, 3, 6]  # * 위원회, 피감기관, 위원명, 질의
+    cmp2_compare = [1, 2, 4, 5]  # * 위원회, 피감기관, 위원명, 질의
     total_dic = {}
 
     ws1 = excel_1.active
@@ -33,7 +33,7 @@ def compare_excel(excel_1=Workbook, excel_2=Workbook) -> Workbook:  # pylint: di
             if len(attach_list) == 0:
                 continue
 
-        # 위원회, 피감기관, 위원명, BOOKID, SEQNO, 질의, 파일명, 별첨리스트
+        # * 위원회, 피감기관, 위원명, BOOKID, SEQNO, 질의, 파일명, 별첨리스트
         if len(attach_list) > 0:
             attach_excel1_info_list.append([ws1.cell(row=ws1_row_num, column=1).value,
                                             ws1.cell(row=ws1_row_num, column=2).value, ws1.cell(
@@ -51,7 +51,7 @@ def compare_excel(excel_1=Workbook, excel_2=Workbook) -> Workbook:  # pylint: di
     sorted_keys = sorted(total_dic.keys(), reverse=True)
     final_dict = OrderedDict((key, total_dic[key]) for key in sorted_keys)
 
-    # dictionary 디버깅용
+    #! dictionary 디버깅용. PyInstaller사용시 오류 발생함. 사용X
     # with open('./log/data.txt', 'w', encoding='UTF-8') as file:
     #     for key, value in final_dict.items():
     #         file.write(f"{key}: {value}\n")
