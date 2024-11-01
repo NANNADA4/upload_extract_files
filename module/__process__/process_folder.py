@@ -16,15 +16,23 @@ from module.utils.load_excel import load_excel
 from module.__process__.process_log import create_log
 
 
+def take_exception(e):
+    """exception 발생시 출력"""
+    print(f"\n!!!!!{e}!!!!!\n")
+    print("-"*10)
+    traceback.print_exc()
+    print("-"*10)
+
+
 def process_create(input_path, excel_path):
     """#1. BOOK_ID, SEQNO가 매겨진 엑셀파일을 생성합니다"""
     try:
         create_excel(input_path, excel_path)
         print("\n=> 엑셀 파일이 정상적으로 생성되었습니다\n")
     except Exception as e:  # pylint: disable=W0718
-        print(f"\n!!!!!{e}!!!!!\n")
-        traceback.print_exc()
-        os.remove(excel_path)
+        take_exception(e)
+        if os.path.exists(excel_path):
+            os.remove(excel_path)
 
 
 def process_merge(base_excel_path, attach_excel_path):
@@ -34,8 +42,7 @@ def process_merge(base_excel_path, attach_excel_path):
             attach_excel_path)).save(base_excel_path)
         print("\n=> 엑셀 파일이 정상적으로 병합되었습니다\n")
     except Exception as e:  # pylint: disable=W0718
-        print(f"!!!!!{e}!!!!!")
-        traceback.print_exc()
+        take_exception(e)
 
 
 def process_rename(input_path, output_path, excel_path):
