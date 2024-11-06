@@ -79,9 +79,9 @@ def add_attach_list(wb1: Workbook, wb2: Workbook, file_id: str) -> Workbook:
         attach_excel1_info_list = []
         file_name_list = []  # 질의별 별첨파일 리스트
         for ws2_row_num in range(2, ws2.max_row + 1):
-            # * 위원회, 피감기관, 위원명, PDF상 답변 으로 비교
-            if ([str(ws1.cell(row=ws1_row_num, column=col).value).strip() for col in [1, 2, 3, 7]] ==  # pylint: disable=C0301
-                [str(ws2.cell(row=ws2_row_num, column=col).value).strip() for col in [1, 2, 4, 6]] and  # pylint: disable=C0301
+            # * 위원회, 피감기관, 위원명, 질의, PDF상 답변 으로 비교
+            if ([str(ws1.cell(row=ws1_row_num, column=col).value).strip() for col in [1, 2, 3, 6, 7]] ==  # pylint: disable=C0301
+                [str(ws2.cell(row=ws2_row_num, column=col).value).strip() for col in [1, 2, 4, 5, 6]] and  # pylint: disable=C0301
                     ws2.cell(row=ws2_row_num, column=8).value is not None):
                 file_name_list.append(
                     ws2.cell(row=ws2_row_num, column=8).value)
@@ -105,6 +105,7 @@ def add_attach_list(wb1: Workbook, wb2: Workbook, file_id: str) -> Workbook:
     final_attach_dict = OrderedDict(
         (key, attach_total_dic[key]) for key in sorted_keys)
 
+    #! dictionary 디버깅용. PyInstaller사용시 오류 발생함. 사용X
     # with open('./log/data2.txt', 'w', encoding='UTF-8') as file:
     #     for key, value in final_attach_dict.items():
     #         file.write(f"{key}: {value}\n")
