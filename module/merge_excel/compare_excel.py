@@ -20,23 +20,23 @@ def compare_excel(excel_1: Workbook, excel_2: Workbook) -> Workbook:
 
         for ws2_row_num in range(2, ws2.max_row + 1):
             # * excel_1, excel_2 : 위원회, 피감기관, 위원명, 질의 로 비교
-            if ([ws1.cell(row=ws1_row_num, column=col).value for col in [1, 2, 3, 6]] ==
-                    [ws2.cell(row=ws2_row_num, column=col).value for col in [1, 2, 4, 5]]):
+            if ([str(ws1.cell(row=ws1_row_num, column=col).value).strip() for col in [1, 2, 3, 6]] ==  # pylint: disable=C0301
+                [str(ws2.cell(row=ws2_row_num, column=col).value).strip() for col in [1, 2, 3, 4]] and  # pylint: disable=C0301
+                    ws2.cell(row=ws2_row_num, column=5).value is not None):
                 pdf_answer_list.append(
-                    ws2.cell(row=ws2_row_num, column=6).value)
-
-            if len(pdf_answer_list) == 0:
-                continue
+                    ws2.cell(row=ws2_row_num, column=5).value)
 
         # * 위원회, 피감기관, 위원명, BOOKID, SEQNO, 질의, 파일명, PDF상 답변
         if len(pdf_answer_list) > 0:
-            attach_excel1_info_list.append([ws1.cell(row=ws1_row_num, column=1).value,
-                                            ws1.cell(row=ws1_row_num, column=2).value, ws1.cell(
-                                            row=ws1_row_num, column=3).value,
-                                            ws1.cell(row=ws1_row_num, column=4).value, ws1.cell(
-                                            row=ws1_row_num, column=5).value,
-                                            ws1.cell(row=ws1_row_num, column=6).value, ws1.cell(
-                                                row=ws1_row_num, column=9).value, pdf_answer_list])
+            attach_excel1_info_list.append(
+                [ws1.cell(row=ws1_row_num, column=1).value,
+                 ws1.cell(row=ws1_row_num, column=2).value,
+                 ws1.cell(row=ws1_row_num, column=3).value,
+                 ws1.cell(row=ws1_row_num, column=4).value,
+                 ws1.cell(row=ws1_row_num, column=5).value,
+                 ws1.cell(row=ws1_row_num, column=6).value,
+                 ws1.cell(row=ws1_row_num, column=9).value,
+                 pdf_answer_list])
 
             total_dic.update(
                 {ws1_row_num + 1: attach_excel1_info_list})
@@ -80,25 +80,24 @@ def add_attach_list(wb1: Workbook, wb2: Workbook, file_id: str) -> Workbook:
         file_name_list = []  # 질의별 별첨파일 리스트
         for ws2_row_num in range(2, ws2.max_row + 1):
             # * 위원회, 피감기관, 위원명, PDF상 답변 으로 비교
-            if ([ws1.cell(row=ws1_row_num, column=col).value for col in [1, 2, 3, 7]] ==
-                    [ws2.cell(row=ws2_row_num, column=col).value for col in [1, 2, 4, 6]]):
+            if ([str(ws1.cell(row=ws1_row_num, column=col).value).strip() for col in [1, 2, 3, 7]] ==  # pylint: disable=C0301
+                [str(ws2.cell(row=ws2_row_num, column=col).value).strip() for col in [1, 2, 4, 6]] and  # pylint: disable=C0301
+                    ws2.cell(row=ws2_row_num, column=8).value is not None):
                 file_name_list.append(
                     ws2.cell(row=ws2_row_num, column=8).value)
 
-            if len(file_name_list) == 0:
-                continue
-
         if len(file_name_list) > 0:
             # * 위원회, 피감기관, 위원명, BOOKID, SEQNO, 질의, PDF상 답변, 파일명, 별첨파일명
-            attach_excel1_info_list.append([ws1.cell(row=ws1_row_num, column=1).value,
-                                            ws1.cell(row=ws1_row_num, column=2).value, ws1.cell(
-                                            row=ws1_row_num, column=3).value,
-                                            ws1.cell(row=ws1_row_num, column=4).value, ws1.cell(
-                                            row=ws1_row_num, column=5).value,
-                                            ws1.cell(row=ws1_row_num, column=6).value, ws1.cell(
-                                            row=ws1_row_num, column=7).value,
-                                            ws1.cell(row=ws1_row_num,
-                                                     column=9).value, file_name_list])
+            attach_excel1_info_list.append(
+                [ws1.cell(row=ws1_row_num, column=1).value,
+                 ws1.cell(row=ws1_row_num, column=2).value,
+                 ws1.cell(row=ws1_row_num, column=3).value,
+                 ws1.cell(row=ws1_row_num, column=4).value,
+                 ws1.cell(row=ws1_row_num, column=5).value,
+                 ws1.cell(row=ws1_row_num, column=6).value,
+                 ws1.cell(row=ws1_row_num, column=7).value,
+                 ws1.cell(row=ws1_row_num, column=9).value,
+                 file_name_list])
 
             attach_total_dic.update({ws1_row_num + 1: attach_excel1_info_list})
 
