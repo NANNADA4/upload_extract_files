@@ -139,8 +139,8 @@ def insert_cell_data(ws, file_id):
             continue
         _, extension = os.path.splitext(realfile_name)
         upper_extension = extension.upper()
-        file_name = f"{str(file_id_to_int).zfill(
-            file_id_length)}{upper_extension}"
+        file_name =\
+            f"{str(file_id_to_int).zfill(file_id_length)}{upper_extension}"
 
         ws.cell(row=ws_row_num, column=11, value=file_name)
         file_id_to_int += 1
