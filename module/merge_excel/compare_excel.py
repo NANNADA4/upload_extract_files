@@ -2,8 +2,8 @@
 두 엑셀 파일을 비교합니다.
 """
 
-
-from openpyxl import Workbook
+import os
+from openpyxl import Workbook, load_workbook
 
 
 def add_pdf_answer(excel_1: Workbook, excel_2: Workbook) -> Workbook:
@@ -28,3 +28,26 @@ def add_pdf_answer(excel_1: Workbook, excel_2: Workbook) -> Workbook:
     return excel_2
 
     #! 엑셀 파일 생성 후 정렬 후 FILENAME 삽입
+
+
+def insert_filename_data(input_path, file_id):
+    """BOOKID, SEQNO를 모두 병합 후, 순서대로 FILENAME을 삽입합니다"""
+    wb = load_workbook(input_path)
+    ws = wb.active
+
+    file_id_length = len(file_id)
+    file_id_to_int = int(file_id)
+
+    for ws_row_num in range(2, ws.max_row + 1):
+        realfile_name = ws.cell(row=ws_row_num, column=8).value
+        if realfile_name is None:
+            continue
+        _, extension = os.path.splitext(realfile_name)
+        upper_extension = extension.upper()
+        file_name =\
+            f"{str(file_id_to_int).zfill(file_id_length)}{upper_extension}"
+
+        ws.cell(row=ws_row_num, column=11, value=file_name)
+        file_id_to_int += 1
+
+    wb.save(input_path)

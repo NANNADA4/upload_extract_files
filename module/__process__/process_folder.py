@@ -12,7 +12,7 @@ from natsort import natsorted
 
 
 from module.create_excel.create_excel import create_excel
-from module.merge_excel.compare_excel import add_pdf_answer
+from module.merge_excel.compare_excel import add_pdf_answer, insert_filename_data
 from module.utils.load_excel import load_excel
 from module.__process__.process_log import create_log
 
@@ -40,14 +40,6 @@ def process_create(input_path, excel_path):
 def process_merge(base_excel_path, attach_excel_path):
     """#2. 1번에서 제작한 엑셀파일과 별도제출자료를 정리한 엑셀파일을 병합합니다"""
     try:
-        # while True:
-        #     file_id = input("FILE_NAME에 들어갈 시작번호를 입력하세요 (seqNO순)\n=> ")
-        #     try:
-        #         int(file_id)
-        #         break
-        #     except ValueError:
-        #         print("\n====숫자만 입력해주세요====\n")
-
         now = datetime.now()
         time_now = str(now.month).zfill(2) + str(now.day).zfill(2) + \
             str(now.hour).zfill(2) + str(now.minute).zfill(2)
@@ -62,7 +54,8 @@ def process_merge(base_excel_path, attach_excel_path):
 
 def process_count(input_path, file_id):
     """#3. BOOKID, SEQNO를 모두 병합 후, 순서대로 FILENAME을 삽입합니다"""
-    print(f"{input_path}, {file_id} hello, test")
+    insert_filename_data(input_path, file_id)
+    print("\n=> FILENAME이 모두 입력되었습니다.\n")
 
 
 def process_rename(input_path, output_path, excel_path):
@@ -149,7 +142,7 @@ def process_folder(input_num) -> bool:
 
                 if os.path.exists(count_excel_path):
                     process_count(count_excel_path, file_id)
-                break
+                    break
         case '4':
             rename_output_path = input(
                 "경로 및 이름을 변경한 파일을 복사할 폴더 경로를 입력하세요\n=> ")
