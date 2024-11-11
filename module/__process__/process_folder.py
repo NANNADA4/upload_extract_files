@@ -5,13 +5,14 @@
 
 import os
 import shutil
+from datetime import datetime
 import traceback
 import pandas as pd
 from natsort import natsorted
 
 
 from module.create_excel.create_excel import create_excel
-from module.merge_excel.compare_excel import add_attach_list, add_pdf_answer
+from module.merge_excel.compare_excel import add_pdf_answer
 from module.utils.load_excel import load_excel
 from module.__process__.process_log import create_log
 
@@ -39,26 +40,33 @@ def process_create(input_path, excel_path):
 def process_merge(base_excel_path, attach_excel_path):
     """#2. 1번에서 제작한 엑셀파일과 별도제출자료를 정리한 엑셀파일을 병합합니다"""
     try:
-        while True:
-            file_id = input("FILE_NAME에 들어갈 시작번호를 입력하세요 (seqNO순)\n=> ")
-            try:
-                int(file_id)
-                break
-            except ValueError:
-                print("\n====숫자만 입력해주세요====\n")
+        # while True:
+        #     file_id = input("FILE_NAME에 들어갈 시작번호를 입력하세요 (seqNO순)\n=> ")
+        #     try:
+        #         int(file_id)
+        #         break
+        #     except ValueError:
+        #         print("\n====숫자만 입력해주세요====\n")
+
+        now = datetime.now()
+        time_now = str(now.month).zfill(2) + str(now.day).zfill(2) + \
+            str(now.hour).zfill(2) + str(now.minute).zfill(2)
 
         add_pdf_answer(load_excel(base_excel_path), load_excel(
-            attach_excel_path)).save(base_excel_path)
-        print("\n====PDF상 답변 병합 완료. FILE_NAME병합 시작.====\n")
-        add_attach_list(load_excel(base_excel_path), load_excel(
-            attach_excel_path), file_id).save(base_excel_path)
+            attach_excel_path)).save(os.path.join(os.path.dirname(base_excel_path),
+                                                  f'업로드리스트_{time_now}.xlsx'))
         print("\n=> 엑셀 파일이 정상적으로 병합되었습니다\n")
     except Exception as e:  # pylint: disable=W0718
         take_exception(e)
 
 
+def process_count(input_path, file_id):
+    """#3. BOOKID, SEQNO를 모두 병합 후, 순서대로 FILENAME을 삽입합니다"""
+    print(f"{input_path}, {file_id} hello, test")
+
+
 def process_rename(input_path, output_path, excel_path):
-    """#3. 폴더를 순회하면서 엑셀 파일 내부 파일명을 변경하고 새로운 폴더로 이동합니다."""
+    """#4. 폴더를 순회하면서 엑셀 파일 내부 파일명을 변경하고 새로운 폴더로 이동합니다."""
     df = pd.read_excel(excel_path, engine='openpyxl')
 
     if not all(col in df.columns for col in ['실제 파일명', 'FILE_NAME', 'FILE_PATH']):
@@ -130,6 +138,19 @@ def process_folder(input_num) -> bool:
                     break
                 print("\n=> 엑셀 파일 경로를 한번 더 확인해주세요")
         case '3':
+            while True:
+                count_excel_path = input("엑셀파일 경로를 입력해주세요\n=> ")
+                file_id = input("FILE_NAME에 들어갈 시작번호를 입력하세요 (seqNO순)\n=> ")
+                try:
+                    int(file_id)
+                    break
+                except ValueError:
+                    print("\n====숫자만 입력해주세요====\n")
+
+                if os.path.exists(count_excel_path):
+                    process_count(count_excel_path, file_id)
+                break
+        case '4':
             rename_output_path = input(
                 "경로 및 이름을 변경한 파일을 복사할 폴더 경로를 입력하세요\n=> ")
             rename_excel_path = input(
