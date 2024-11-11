@@ -16,8 +16,9 @@ def main():
     print("="*60)
 
     print("[1] BOOK_ID, SeqNO가 포함된 엑셀 파일 생성")
-    print("[2] 생성된 엑셀 파일에 질의합치기")
-    print("[3] BOOK_ID를 토대로 파일명 변경 및 폴더 생성")
+    print("[2] BOOK_ID, SeqNO 병합하기")
+    print("[3] FILE_NAME 병합하기 (!!엑셀 파일 정렬 후 사용!!)")
+    print("[4] BOOK_ID를 토대로 파일명 변경 및 폴더 생성")
     print("[5] 도움말")
     print("[8] 로그파일 출력")
     print("[9] 로그파일 삭제")
@@ -25,7 +26,7 @@ def main():
     input_num = input("=> ")
 
     match input_num:
-        case '1' | '2' | '3':
+        case '1' | '2' | '3' | '4':
             process_folder(input_num)
         case '5':
             describe_program()
