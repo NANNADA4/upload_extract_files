@@ -11,7 +11,7 @@ from natsort import natsorted
 
 
 from module.create_excel.create_excel import create_excel
-from module.merge_excel.compare_excel import add_attach_list, compare_excel
+from module.merge_excel.compare_excel import add_attach_list, add_pdf_answer
 from module.utils.load_excel import load_excel
 from module.__process__.process_log import create_log
 
@@ -47,7 +47,7 @@ def process_merge(base_excel_path, attach_excel_path):
             except ValueError:
                 print("\n====숫자만 입력해주세요====\n")
 
-        compare_excel(load_excel(base_excel_path), load_excel(
+        add_pdf_answer(load_excel(base_excel_path), load_excel(
             attach_excel_path)).save(base_excel_path)
         print("\n====PDF상 답변 병합 완료. FILE_NAME병합 시작.====\n")
         add_attach_list(load_excel(base_excel_path), load_excel(
