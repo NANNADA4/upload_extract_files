@@ -17,11 +17,16 @@ def describe_program():
     print("질의를 매기는 과정은 위원회, 피감기관, 위원, 질의로 결정됩니다.")
     print("질의를 정리한 엑셀파일이 따로 필요합니다.\n")
 
-    print("3. FILENAME 생성")
+    print("3. FILENAME 병합하기")
+    print("2번 스크립트에서 생성된 엑셀 파일을 정렬합니다")
+    print("(위원회, 피감기관, BOOKID, SEQNO순)")
+    print("데이터가 정렬된 순으로 FILENAME을 삽입합니다.\n")
+
+    print("4. FILENAME 생성")
     print("2에서 만든 엑셀 파일을 이용해 순서대로 FILENAME을 삽입합니다.")
     print("사용 전, 2에서 엑셀파일을 만든 후, 위원회, 피감기관, BOOKID, SEQNO 순 정렬이 필요합니다.\n")
 
-    print("4. BOOK_ID를 토대로 파일명 변경 및 폴더 생성")
+    print("5. BOOK_ID를 토대로 파일명 변경 및 폴더 생성")
     print("BOOK_ID가 매겨진 엑셀 파일을 토대로 업로드 시스템에 알맞게 파일명 및 경로를 변경합니다.")
     print("- \"기본적으로 /inspection/reqdoc/2023/\"BOOK_ID\"/\"별도제출파일명\" 으로 경로가 생성됩니다")
     print("- 경로가 생성이 완료된 이후, 엑셀 파일의 \'경로명\'열을 생성된 경로명으로 변경됩니다.\n")
