@@ -31,7 +31,7 @@ def add_pdf_answer(excel_1: Workbook, excel_2: Workbook) -> Workbook:
 
 
 def insert_filename_data(input_path, file_id):
-    """BOOKID, SEQNO를 모두 병합 후, 순서대로 FILENAME을 삽입합니다"""
+    """3. BOOKID, SEQNO를 모두 병합 후, 순서대로 FILENAME을 삽입합니다"""
     wb = load_workbook(input_path)
     ws = wb.active
 
@@ -39,7 +39,7 @@ def insert_filename_data(input_path, file_id):
     file_id_to_int = int(file_id)
 
     for ws_row_num in range(2, ws.max_row + 1):
-        realfile_name = ws.cell(row=ws_row_num, column=8).value
+        realfile_name = ws.cell(row=ws_row_num, column=9).value
         if realfile_name is None:
             continue
         _, extension = os.path.splitext(realfile_name)
