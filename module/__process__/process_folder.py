@@ -13,6 +13,7 @@ from natsort import natsorted
 
 from module.create_excel.create_excel import create_excel
 from module.merge_excel.compare_excel import add_pdf_answer, insert_filename_data
+from module.utils.combine_personal_info import combine_is_exist_personal_info
 from module.utils.load_excel import load_excel
 from module.__process__.process_log import create_log
 
@@ -149,5 +150,8 @@ def process_folder(input_num) -> bool:
             rename_excel_path = input(
                 "엑셀 파일의 경로를 입력하세요 (엑셀이 종료되었는지 확인하세요)\n=> ")
             process_rename(input_path, rename_output_path, rename_excel_path)
+        case '5':
+            file_path = input("엑셀 파일 경로를 입력해주세요 (확장자 포함)\n=> ")
+            combine_is_exist_personal_info(file_path)
 
     return True
