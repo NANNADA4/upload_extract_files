@@ -15,8 +15,8 @@ def main():
     print("***'실제 파일명', 'FILE_NAME', 'FILE_PATH' 열이 존재하는지 확인하세요***\n")
     print("="*60)
 
-    print("[1] BOOK_ID, SeqNO가 포함된 엑셀 파일 생성")
-    print("[2] BOOK_ID, SeqNO 병합하기")
+    print("[1] SeqNO가 포함된 엑셀 파일 생성")
+    print("[2] SeqNO 병합하기")
     print("[3] FILE_NAME 병합하기 (!!엑셀 파일 정렬 후 사용!!)")
     print("[4] BOOK_ID를 토대로 파일명 변경 및 폴더 생성")
     print("[6] 개인정보추출 리스트와 병합하기 (P열에 저장됨)")

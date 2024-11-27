@@ -16,14 +16,6 @@ def create_excel(input_path, excel_path):
     wb = load_excel(excel_path)
     ws = wb.active
 
-    while True:
-        book_id = input("BOOK_ID 시작번호를 입력해주세요 (오름차순으로 매겨집니다) : ")
-        try:
-            book_id = int(book_id)
-            break
-        except ValueError:
-            print("\n====숫자만 입력해주세요====\n")
-
     for root, _, files in os.walk(input_path):
         for file in natsorted(files):
             cmt = extract_cmt(file)
@@ -38,12 +30,10 @@ def create_excel(input_path, excel_path):
                     ws.cell(row=last_row + tmp, column=2, value=org)
                     ws.cell(row=last_row + tmp, column=3,
                             value=item['parent']['title'])
-                    ws.cell(row=last_row + tmp, column=4, value=book_id)
                     ws.cell(row=last_row + tmp,
                             column=5, value=item['SeqNo'])
                     ws.cell(row=last_row + tmp,
                             column=6, value=item['title'])
                     ws.cell(row=last_row + tmp, column=9, value=file)
                     tmp += 1
-            book_id += 1
     wb.save(excel_path)
