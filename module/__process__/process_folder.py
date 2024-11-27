@@ -106,8 +106,8 @@ def process_rename(input_path, output_path, excel_path):
     print("\n~~~엑셀 파일 수정중입니다~~~")
 
     try:
-        df.to_excel(os.path.join(os.path.dirname(excel_path), f"최종업로드리스트_{
-                    get_time()}.xlsx"), index=False, engine='openpyxl')
+        df.to_excel(os.path.join(os.path.dirname(excel_path),
+                                 f"최종업로드리스트_{get_time()}.xlsx"), index=False, engine='openpyxl')
     except PermissionError:
         print("엑셀 수정 실패! : 엑셀 파일이 열려있는 경우, 닫고 다시 실행하세요")
         return
