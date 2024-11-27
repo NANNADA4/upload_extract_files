@@ -38,16 +38,21 @@ def process_create(input_path, excel_path):
             os.remove(excel_path)
 
 
+def get_time():
+    """현재 시간, 분, 초를 반환합니다"""
+    now = datetime.now()
+    time_now = str(now.month).zfill(2) + str(now.day).zfill(2) + \
+        str(now.hour).zfill(2) + str(now.minute).zfill(2)
+
+    return time_now
+
+
 def process_merge(base_excel_path, attach_excel_path):
     """#2. 1번에서 제작한 엑셀파일과 별도제출자료를 정리한 엑셀파일을 병합합니다"""
     try:
-        now = datetime.now()
-        time_now = str(now.month).zfill(2) + str(now.day).zfill(2) + \
-            str(now.hour).zfill(2) + str(now.minute).zfill(2)
-
         add_pdf_answer(load_excel(base_excel_path), load_excel(
             attach_excel_path)).save(os.path.join(os.path.dirname(base_excel_path),
-                                                  f'업로드리스트_{time_now}.xlsx'))
+                                                  f'업로드리스트_{get_time()}.xlsx'))
         print("\n=> 엑셀 파일이 정상적으로 병합되었습니다\n")
     except Exception as e:  # pylint: disable=W0718
         take_exception(e)
@@ -61,13 +66,14 @@ def process_count(input_path, file_id):
 
 def process_rename(input_path, output_path, excel_path):
     """#4. 폴더를 순회하면서 엑셀 파일 내부 파일명을 변경하고 새로운 폴더로 이동합니다."""
-    df = pd.read_excel(excel_path, engine='openpyxl')
+    df = pd.read_excel(excel_path, engine='openpyxl', sheet_name=1)
 
     if not all(col in df.columns for col in ['실제 파일명', 'FILE_NAME', 'FILE_PATH']):
         print("엑셀 읽기 오류! : 엑셀 파일에 필요한 열이 없습니다.")
         return
 
     df['FILE_PATH'] = df['FILE_PATH'].astype(str)
+    df['BOOKID'] = df['BOOKID'].astype(str)
 
     for root, _, files in os.walk(input_path):
         for file in natsorted(files):
@@ -80,10 +86,11 @@ def process_rename(input_path, output_path, excel_path):
             for index, row in matching_row.iterrows():
                 actual_file_path = os.path.join(root, file)
 
-                file_path_row = f"/inspection/reqdoc/2023/{row['BOOK_ID']}/" + \
-                    f"{row['FILE_NAME']}"
+                file_path_row = f"/inspection/reqdoc/2023/{str(row['BOOKID']).zfill(9)}/" + \
+                    f"{str(row['FILE_NAME'])}"
                 real_file_path = os.path.join(
-                    "inspection", "reqdoc", "2023", str(row['BOOK_ID']), str(row['FILE_NAME']))
+                    "inspection", "reqdoc", "2023", str(
+                        row['BOOKID']).zfill(9), str(row['FILE_NAME']))
                 target_file_path = os.path.join(output_path, real_file_path)
 
                 target_folder = os.path.dirname(target_file_path)
@@ -99,7 +106,8 @@ def process_rename(input_path, output_path, excel_path):
     print("\n~~~엑셀 파일 수정중입니다~~~")
 
     try:
-        df.to_excel(excel_path, index=False, engine='openpyxl')
+        df.to_excel(os.path.join(os.path.dirname(excel_path), f"최종업로드리스트_{
+                    get_time()}.xlsx"), index=False, engine='openpyxl')
     except PermissionError:
         print("엑셀 수정 실패! : 엑셀 파일이 열려있는 경우, 닫고 다시 실행하세요")
         return
@@ -107,7 +115,7 @@ def process_rename(input_path, output_path, excel_path):
 
 def process_folder(input_num) -> bool:
     """전달받은 input_num을 토대로 알맞은 함수로 반환합니다."""
-    if input_num in ['1', '3']:
+    if input_num in ['1', '4']:
         input_path = input("입력 폴더의 경로를 입력하세요\n=> ")
         input_path = os.path.join('\\\\?\\', input_path)
 
@@ -137,10 +145,8 @@ def process_folder(input_num) -> bool:
                 file_id = input("FILE_NAME에 들어갈 시작번호를 입력하세요 (seqNO순)\n=> ")
                 try:
                     int(file_id)
-                    break
                 except ValueError:
                     print("\n====숫자만 입력해주세요====\n")
-
                 if os.path.exists(count_excel_path):
                     process_count(count_excel_path, file_id)
                     break
