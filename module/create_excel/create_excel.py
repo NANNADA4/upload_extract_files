@@ -34,6 +34,7 @@ def create_excel(input_path, excel_path):
                             column=5, value=item['SeqNo'])
                     ws.cell(row=last_row + tmp,
                             column=6, value=item['title'])
-                    ws.cell(row=last_row + tmp, column=9, value=file)
+                    filename, _ = os.path.splitext(file)
+                    ws.cell(row=last_row + tmp, column=9, value=filename)
                     tmp += 1
     wb.save(excel_path)
