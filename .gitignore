@@ -5,3 +5,4 @@ dist/
 data*.txt
 etc/
 log/
+tmp/
