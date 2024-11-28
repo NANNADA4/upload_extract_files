@@ -19,13 +19,11 @@ def add_pdf_answer(excel_1: Workbook, excel_2: Workbook) -> Workbook:
                  for col in [4, 3, 6]] ==
                 [str(ws2.cell(row=ws2_row_num, column=col).value).strip()
                  for col in [4, 7, 8]] and
-                    ws2.cell(row=ws2_row_num, column=8).value is not None):
+                    ws2.cell(row=ws2_row_num, column=7).value is not None):
                 ws2.cell(row=ws2_row_num, column=5, value=ws1.cell(
                     row=ws1_row_num, column=5).value)  # SEQNO
 
     return excel_2
-
-    #! 엑셀 파일 생성 후 정렬 후 FILENAME 삽입
 
 
 def insert_filename_data(input_path, file_id):
