@@ -8,14 +8,12 @@ import shutil
 from datetime import datetime
 import traceback
 import pandas as pd
-from natsort import natsorted
 
 
 from module.create_excel.create_excel import create_excel
 from module.merge_excel.compare_excel import add_pdf_answer, insert_filename_data
 from module.utils.combine_personal_info import combine_is_exist_personal_info
 from module.utils.load_excel import load_excel
-from module.__process__.process_log import create_log
 
 
 def take_exception(e):
@@ -75,33 +73,27 @@ def process_rename(input_path, output_path, excel_path):
     df['FILE_PATH'] = df['FILE_PATH'].astype(str)
     df['BOOKID'] = df['BOOKID'].astype(str)
 
-    for root, _, files in os.walk(input_path):
-        for file in natsorted(files):
-            matching_row = df[df['실제 파일명'] == file]
+    for index, row in df.iterrows():
+        file_path = row['경로']
+        actual_file_path = os.path.join(input_path, file_path)
+        if not os.path.exists(actual_file_path):
+            continue
+        file_path_row = f"/inspection/reqdoc/2023/{str(row['BOOKID']).zfill(9)}/" + \
+            f"{str(row['FILE_NAME'])}"
+        real_file_path = os.path.join(
+            "inspection", "reqdoc", "2023", str(
+                row['BOOKID']).zfill(9), str(row['FILE_NAME']))
+        target_file_path = os.path.join(output_path, real_file_path)
 
-            if matching_row.empty:
-                create_log(os.path.join(root, file))
-                continue
+        target_folder = os.path.dirname(target_file_path)
+        if not os.path.exists(target_folder):
+            os.makedirs(target_folder)
 
-            for index, row in matching_row.iterrows():
-                actual_file_path = os.path.join(root, file)
+        if os.path.exists(actual_file_path):
+            shutil.copy(actual_file_path, target_file_path)
 
-                file_path_row = f"/inspection/reqdoc/2023/{str(row['BOOKID']).zfill(9)}/" + \
-                    f"{str(row['FILE_NAME'])}"
-                real_file_path = os.path.join(
-                    "inspection", "reqdoc", "2023", str(
-                        row['BOOKID']).zfill(9), str(row['FILE_NAME']))
-                target_file_path = os.path.join(output_path, real_file_path)
-
-                target_folder = os.path.dirname(target_file_path)
-                if not os.path.exists(target_folder):
-                    os.makedirs(target_folder)
-
-                if os.path.exists(actual_file_path):
-                    shutil.copy(actual_file_path, target_file_path)
-
-                df.at[index, 'FILE_PATH'] = file_path_row
-                df.at[index, 'FILE_NAME'] = row['FILE_NAME']
+        df.at[index, 'FILE_PATH'] = file_path_row
+        df.at[index, 'FILE_NAME'] = row['FILE_NAME']
 
     print("\n~~~엑셀 파일 수정중입니다~~~")
 
