@@ -50,6 +50,7 @@ def process_merge(base_excel_path, attach_excel_path):
         df_merge = add_pdf_answer(base_excel_path, attach_excel_path)
         df_merge.to_excel(os.path.join(os.path.dirname(
             base_excel_path), f'업로드리스트_{get_time()}.xlsx'), index=False)
+        print("\n=> SEQNO 병합이 완료되었습니다. \n")
     except Exception as e:  # pylint: disable=W0718
         take_exception(e)
 
