@@ -19,9 +19,8 @@ def add_pdf_answer(excel_1_path: str, excel_2_path: str) -> pd.DataFrame:
     for _, row1 in df1_subset.iterrows():
         for idx2, row2 in df2_subset.iterrows():
             if (row1.iloc[1] == row2.iloc[1] and
-                row1.iloc[0].strip() == row2.iloc[0].strip() and
-                row1.iloc[3].strip() == row2.iloc[3].strip() and
-                    pd.notna(row2.iloc[0])):
+                (pd.notna(row1.iloc[3]) and str(row1.iloc[3]).strip() ==
+                 str(row2.iloc[3]).strip()) and pd.notna(row2.iloc[0])):
                 df2.iloc[idx2, 4] = row1.iloc[2]
 
     return df2
