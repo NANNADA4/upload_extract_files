@@ -3,27 +3,28 @@
 """
 
 import os
-from openpyxl import Workbook, load_workbook
+import pandas as pd
+from openpyxl import load_workbook
 
 
-def add_pdf_answer(excel_1: Workbook, excel_2: Workbook) -> Workbook:
+def add_pdf_answer(excel_1_path: str, excel_2_path: str) -> pd.DataFrame:
     """두 엑셀 파일을 비교하여 값이 같을 경우 PDF상 답변을 추가합니다"""
-    ws1 = excel_1.active  # 1번 스크립트에서 생성한 엑셀파일
-    ws2 = excel_2.worksheets[1]
-    excel_2.active = ws2  # 별도제출자료 정리 엑셀
+    #! 위원명, BOOK_ID, SEQNO, 질의
+    df1 = pd.read_excel(excel_1_path)
+    df2 = pd.read_excel(excel_2_path, sheet_name=1)
 
-    for ws1_row_num in range(2, ws1.max_row + 1):
-        for ws2_row_num in range(2, ws2.max_row + 1):
-            # * excel_1, excel_2 : BOOKID, 위원명, 질의 로 비교
-            if ([str(ws1.cell(row=ws1_row_num, column=col).value).strip()
-                 for col in [4, 3, 6]] ==
-                [str(ws2.cell(row=ws2_row_num, column=col).value).strip()
-                 for col in [4, 7, 8]] and
-                    ws2.cell(row=ws2_row_num, column=7).value is not None):
-                ws2.cell(row=ws2_row_num, column=5, value=ws1.cell(
-                    row=ws1_row_num, column=5).value)  # SEQNO
+    df1_subset = df1.iloc[:, [2, 3, 4, 5]]
+    df2_subset = df2.iloc[:, [6, 3, 4, 7]]
 
-    return excel_2
+    for _, row1 in df1_subset.iterrows():
+        for idx2, row2 in df2_subset.iterrows():
+            if (row1.iloc[1] == row2.iloc[1] and
+                row1.iloc[0].strip() == row2.iloc[0].strip() and
+                row1.iloc[3].strip() == row2.iloc[3].strip() and
+                    pd.notna(row2.iloc[0])):
+                df2.iloc[idx2, 4] = row1.iloc[2]
+
+    return df2
 
 
 def insert_filename_data(input_path, file_id):

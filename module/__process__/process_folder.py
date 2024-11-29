@@ -13,7 +13,6 @@ import pandas as pd
 from module.create_excel.create_excel import create_excel
 from module.merge_excel.compare_excel import add_pdf_answer, insert_filename_data
 from module.utils.combine_personal_info import combine_is_exist_personal_info
-from module.utils.load_excel import load_excel
 
 
 def take_exception(e):
@@ -48,10 +47,9 @@ def get_time():
 def process_merge(base_excel_path, attach_excel_path):
     """#2. 1번에서 제작한 엑셀파일과 별도제출자료를 정리한 엑셀파일을 병합합니다"""
     try:
-        add_pdf_answer(load_excel(base_excel_path), load_excel(
-            attach_excel_path)).save(os.path.join(os.path.dirname(base_excel_path),
-                                                  f'업로드리스트_{get_time()}.xlsx'))
-        print("\n=> 엑셀 파일이 정상적으로 병합되었습니다\n")
+        df_merge = add_pdf_answer(base_excel_path, attach_excel_path)
+        df_merge.to_excel(os.path.join(os.path.dirname(
+            base_excel_path), f'업로드리스트_{get_time()}.xlsx'), index=False)
     except Exception as e:  # pylint: disable=W0718
         take_exception(e)
 
