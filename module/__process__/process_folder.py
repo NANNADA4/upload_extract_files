@@ -8,8 +8,11 @@ import shutil
 from datetime import datetime
 import traceback
 import pandas as pd
+from openpyxl import Workbook
+from openpyxl.styles import PatternFill
 
 
+from module.__process__.process_log import create_log, get_log_path
 from module.create_excel.create_excel import create_excel
 from module.merge_excel.compare_excel import add_pdf_answer, insert_filename_data
 from module.utils.combine_personal_info import combine_is_exist_personal_info
@@ -76,6 +79,7 @@ def process_rename(input_path, output_path, excel_path):
         file_path = row['경로']
         actual_file_path = os.path.join(input_path, file_path)
         if not os.path.exists(actual_file_path):
+            create_log(actual_file_path)
             continue
         file_path_row = f"/inspection/reqdoc/2023/{str(row['BOOKID']).zfill(9)}/" + \
             f"{str(row['FILE_NAME'])}"
@@ -102,6 +106,36 @@ def process_rename(input_path, output_path, excel_path):
     except PermissionError:
         print("엑셀 수정 실패! : 엑셀 파일이 열려있는 경우, 닫고 다시 실행하세요")
         return
+
+
+def log_to_excel(output_path):
+    """로그파일을 토대로 엑셀을 생성합니다"""
+    if not os.path.exists(get_log_path()):
+        print("=> 로그 파일이 존재하지 않습니다\n")
+        return
+
+    wb = Workbook()
+    ws = wb.active
+    headers = ['연번', '파일명', '확장자', '경로']
+    header_color = PatternFill(start_color='4f81bd',
+                               end_color='4f81bd', fill_type='solid')
+    for col_idx, header in enumerate(headers, start=1):
+        ws.cell(row=1, column=col_idx, value=header)
+        ws.cell(row=1, column=col_idx).fill = header_color
+
+    with open(get_log_path(), 'r', encoding='UTF-8') as file:
+        lines = file.readlines()
+    max_low = ws.max_row + 1
+    for idx, line in enumerate(lines):
+        filename, extension = os.path.splitext(os.path.basename(line))
+        extension_wo_dot = extension.lstrip('.')
+        ws.cell(row=max_low, column=1, value=idx + 1)
+        ws.cell(row=max_low, column=2, value=filename)
+        ws.cell(row=max_low, column=3, value=extension_wo_dot)
+        ws.cell(row=max_low, column=4, value=line)
+        max_low += 1
+
+    wb.save(output_path)
 
 
 def process_folder(input_num) -> bool:
@@ -148,6 +182,10 @@ def process_folder(input_num) -> bool:
                 "엑셀 파일의 경로를 입력하세요 (엑셀이 종료되었는지 확인하세요)\n=> ")
             process_rename(input_path, rename_output_path, rename_excel_path)
         case '5':
+            output_path = input("저장할 엑셀파일 경로를 입력하세요\n=> ")
+            log_to_excel(output_path)
+            print("엑셀 파일 변환이 완료되었습니다.")
+        case '6':
             file_path = input("엑셀 파일 경로를 입력해주세요 (확장자 포함)\n=> ")
             combine_is_exist_personal_info(file_path)
 
