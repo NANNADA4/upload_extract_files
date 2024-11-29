@@ -81,7 +81,7 @@ def process_rename(input_path, output_path, excel_path):
         if not os.path.exists(actual_file_path):
             create_log(actual_file_path)
             continue
-        file_path_row = f"/inspection/reqdoc/2023/{str(row['BOOKID']).zfill(9)}/" + \
+        file_path_row = f"/audit/attach/2023/{str(row['BOOKID']).zfill(9)}/" + \
             f"{str(row['FILE_NAME'])}"
         real_file_path = os.path.join(
             "inspection", "reqdoc", "2023", str(
