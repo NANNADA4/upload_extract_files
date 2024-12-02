@@ -14,7 +14,7 @@ from openpyxl.styles import PatternFill
 
 from module.__process__.process_log import create_log, get_log_path
 from module.create_excel.create_excel import create_excel
-from module.merge_excel.compare_excel import add_pdf_answer, insert_filename_data
+from module.merge_excel.compare_excel import add_seqno, insert_filename_data
 from module.utils.combine_personal_info import combine_is_exist_personal_info
 
 
@@ -50,7 +50,7 @@ def get_time():
 def process_merge(base_excel_path, attach_excel_path):
     """#2. 1번에서 제작한 엑셀파일과 별도제출자료를 정리한 엑셀파일을 병합합니다"""
     try:
-        df_merge = add_pdf_answer(base_excel_path, attach_excel_path)
+        df_merge = add_seqno(base_excel_path, attach_excel_path)
         df_merge.to_excel(os.path.join(os.path.dirname(
             base_excel_path), f'업로드리스트_{get_time()}.xlsx'), index=False)
         print("\n=> SEQNO 병합이 완료되었습니다. \n")

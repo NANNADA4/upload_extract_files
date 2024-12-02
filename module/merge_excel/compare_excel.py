@@ -7,8 +7,8 @@ import pandas as pd
 from openpyxl import load_workbook
 
 
-def add_pdf_answer(excel_1_path: str, excel_2_path: str) -> pd.DataFrame:
-    """두 엑셀 파일을 비교하여 값이 같을 경우 PDF상 답변을 추가합니다"""
+def add_seqno(excel_1_path: str, excel_2_path: str) -> pd.DataFrame:
+    """두 엑셀 파일을 비교하여 값이 같을 경우 SEQNO을 추가합니다"""
     #! 위원명, BOOK_ID, SEQNO, 질의
     df1 = pd.read_excel(excel_1_path)
     df2 = pd.read_excel(excel_2_path, sheet_name=1)
