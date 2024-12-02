@@ -8,7 +8,7 @@ from openpyxl import load_workbook
 
 
 def add_seqno(excel_1_path: str, excel_2_path: str) -> pd.DataFrame:
-    """두 엑셀 파일을 비교하여 값이 같을 경우 SEQNO을 추가합니다"""
+    """두 엑셀 파일을 비교하여 위원명, BOOKID, 질의가 같을 경우 SEQNO을 추가합니다"""
     #! 위원명, BOOK_ID, SEQNO, 질의
     df1 = pd.read_excel(excel_1_path)
     df2 = pd.read_excel(excel_2_path, sheet_name=1)
