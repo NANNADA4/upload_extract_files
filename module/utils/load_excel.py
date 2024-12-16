@@ -17,7 +17,7 @@ def load_excel(excel_file_path=str) -> Workbook:
         ws = wb.active
 
         headers = ['위원회', '피감기관', '위원', 'BOOK_ID',
-                   'SEQNO', '질의', 'PDF상 답변', 'REALFILE_NAME', '파일명', '실제경로', 'FILE_NAME']
+                   'SEQNO', 'level', '질의', 'PDF상 답변', 'REALFILE_NAME', '파일명', '실제경로', 'FILE_NAME']
         header_color = PatternFill(start_color='4f81bd',
                                    end_color='4f81bd', fill_type='solid')
 

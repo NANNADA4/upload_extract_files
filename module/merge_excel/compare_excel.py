@@ -13,7 +13,7 @@ def add_seqno(excel_1_path: str, excel_2_path: str) -> pd.DataFrame:
     df1 = pd.read_excel(excel_1_path)
     df2 = pd.read_excel(excel_2_path, sheet_name=1)
 
-    df1_subset = df1.iloc[:, [2, 3, 4, 5]]
+    df1_subset = df1.iloc[:, [2, 3, 4, 6]]
     df2_subset = df2.iloc[:, [6, 3, 4, 7]]
 
     for _, row1 in df1_subset.iterrows():

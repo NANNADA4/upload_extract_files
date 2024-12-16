@@ -25,16 +25,18 @@ def create_excel(input_path, excel_path):
             last_row = ws.max_row
 
             for item in extract_bookmark(os.path.join(root, file)):
-                if len(item) > 1 and item['level'] == 3:
+                if len(item) > 1:
                     ws.cell(row=last_row + tmp, column=1, value=cmt)
                     ws.cell(row=last_row + tmp, column=2, value=org)
-                    ws.cell(row=last_row + tmp, column=3,
-                            value=item['parent']['title'])
+                    if item['level'] == 3:
+                        ws.cell(row=last_row + tmp, column=3,
+                                value=item['parent']['title'])
                     ws.cell(row=last_row + tmp,
                             column=5, value=item['SeqNo'])
                     ws.cell(row=last_row + tmp,
-                            column=6, value=item['title'])
+                            column=7, value=item['title'])
+                    ws.cell(row=last_row + tmp, column=6, value=item['level'])
                     filename, _ = os.path.splitext(file)
-                    ws.cell(row=last_row + tmp, column=9, value=filename)
+                    ws.cell(row=last_row + tmp, column=10, value=filename)
                     tmp += 1
     wb.save(excel_path)
